@@ -1,43 +1,57 @@
-<section class="posts">
-  <header class="posts__header">
-    <h1>Posts</h1>
+<div class="sheet">
+  <header class="titleblock">
+    <span class="titleblock__mark">CLOUD<span class="titleblock__dot">▪</span>TALLER</span>
+    <dl class="titleblock__meta">
+      <div class="titleblock__cell">
+        <dt>REV</dt>
+        <dd>01</dd>
+      </div>
+      <div class="titleblock__cell">
+        <dt>SHEET</dt>
+        <dd>Posts feed</dd>
+      </div>
+    </dl>
+  </header>
 
-    <div class="posts__controls">
-      <label for="search" class="posts__label">Buscar por título</label>
+  <section class="controls">
+    <div class="controls__field">
+      <label for="search">Search</label>
       <input
         id="search"
         type="search"
-        class="posts__search"
         [ngModel]="searchTerm()"
         (ngModelChange)="searchTerm.set($event)"
-        placeholder="Ej. architecto"
+        placeholder="e.g. architecture"
       />
-
-      <button type="button" class="posts__sort-button" (click)="cycleSort()">
-        Orden: {{ activeSortLabel }}
-      </button>
     </div>
-  </header>
+
+    <button type="button" class="controls__sort" (click)="cycleSort()">
+      <span class="controls__sort-label">Sort</span>
+      <span class="controls__sort-value">{{ activeSortLabel }}</span>
+    </button>
+  </section>
 
   @if (errorMessage()) {
-    <p class="posts__error" role="alert">
+    <p class="stamp stamp--error" role="alert">
+      <span class="stamp__label">Revision needed</span>
       {{ errorMessage() }}
-      <button type="button" (click)="loadPosts()">Reintentar</button>
+      <button type="button" class="stamp__retry" (click)="loadPosts()">Retry</button>
     </p>
   }
 
   @if (loading()) {
-    <p class="posts__status">Cargando posts…</p>
+    <p class="stamp stamp--pending">Loading posts&hellip;</p>
   } @else {
-    <ul class="posts__grid">
-      @for (post of visiblePosts; track post.id) {
-        <li class="posts__card">
-          <h2 class="posts__title">{{ post.title }}</h2>
-          <p class="posts__summary">{{ post.summary }}</p>
+    <ul class="grid">
+      @for (post of visiblePosts; track post.id; let i = $index) {
+        <li class="card" [style.--i]="i">
+          <span class="card__tag">P-{{ post.id }}</span>
+          <h2 class="card__title">{{ post.title }}</h2>
+          <p class="card__summary">{{ post.summary }}</p>
         </li>
       } @empty {
-        <li class="posts__status">No hay posts que coincidan con la búsqueda.</li>
+        <li class="stamp stamp--pending">No posts match this search.</li>
       }
     </ul>
   }
-</section>
+</div>

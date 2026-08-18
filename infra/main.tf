@@ -183,7 +183,9 @@ data "aws_iam_policy_document" "github_oidc_trust" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_org}/${var.github_repo}:*"]
+      # GitHub's sub claim now embeds immutable owner/repo IDs
+      # (repo:org@ORG_ID/repo@REPO_ID:ref:...), not just their names.
+      values = ["repo:${var.github_org}@*/${var.github_repo}@*:*"]
     }
   }
 }
