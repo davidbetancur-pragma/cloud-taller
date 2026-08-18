@@ -1,0 +1,43 @@
+<section class="posts">
+  <header class="posts__header">
+    <h1>Posts</h1>
+
+    <div class="posts__controls">
+      <label for="search" class="posts__label">Buscar por título</label>
+      <input
+        id="search"
+        type="search"
+        class="posts__search"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+        placeholder="Ej. architecto"
+      />
+
+      <button type="button" class="posts__sort-button" (click)="cycleSort()">
+        Orden: {{ activeSortLabel }}
+      </button>
+    </div>
+  </header>
+
+  @if (errorMessage()) {
+    <p class="posts__error" role="alert">
+      {{ errorMessage() }}
+      <button type="button" (click)="loadPosts()">Reintentar</button>
+    </p>
+  }
+
+  @if (loading()) {
+    <p class="posts__status">Cargando posts…</p>
+  } @else {
+    <ul class="posts__grid">
+      @for (post of visiblePosts; track post.id) {
+        <li class="posts__card">
+          <h2 class="posts__title">{{ post.title }}</h2>
+          <p class="posts__summary">{{ post.summary }}</p>
+        </li>
+      } @empty {
+        <li class="posts__status">No hay posts que coincidan con la búsqueda.</li>
+      }
+    </ul>
+  }
+</section>
