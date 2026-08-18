@@ -10,7 +10,7 @@ export interface SortStrategy {
 }
 
 export class SortByTitleStrategy implements SortStrategy {
-  readonly label = 'Title (A-Z)';
+  readonly label = 'Título (A-Z)';
 
   sort(posts: readonly Post[]): Post[] {
     return [...posts].sort((a, b) => a.title.localeCompare(b.title));
@@ -18,7 +18,7 @@ export class SortByTitleStrategy implements SortStrategy {
 }
 
 export class SortByIdStrategy implements SortStrategy {
-  readonly label = 'Newest first';
+  readonly label = 'Más recientes';
 
   sort(posts: readonly Post[]): Post[] {
     return [...posts].sort((a, b) => b.id - a.id);

@@ -1,17 +1,16 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, delay, map, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LoggerFactory } from '../../shared/patterns/creational/logger-factory';
 import { HttpQueryBuilder } from '../../shared/patterns/creational/http-query-builder';
-import { adaptPosts, RawJsonPlaceholderPost } from '../../shared/patterns/structural/post.adapter';
+import { adaptPosts } from '../../shared/patterns/structural/post.adapter';
 import { withLogging } from '../../shared/patterns/structural/with-logging.decorator';
 import { NotificationBus } from '../../shared/patterns/behavioral/notification-bus';
 import { Post } from './post.model';
+import { POSTS_SOURCE } from './posts.data';
 
 @Injectable({ providedIn: 'root' })
 export class PostsApiService {
-  private readonly http = inject(HttpClient);
   private readonly notificationBus = inject(NotificationBus);
   private readonly logger = LoggerFactory.create(environment.enableRequestLogging);
 
@@ -34,10 +33,14 @@ export class PostsApiService {
   }
 
   private requestPosts(limit: number): Observable<Post[]> {
-    const params = new HttpQueryBuilder().withLimit(limit).withSort('id', 'desc').build();
+    const { _limit, _order } = new HttpQueryBuilder().withLimit(limit).withSort('id', 'desc').build();
 
-    return this.http
-      .get<RawJsonPlaceholderPost[]>(`${environment.apiBaseUrl}/posts`, { params })
-      .pipe(map(adaptPosts));
+    const sorted = [...POSTS_SOURCE].sort((a, b) =>
+      _order === 'desc' ? b.id - a.id : a.id - b.id,
+    );
+    const page = sorted.slice(0, Number(_limit));
+
+    // delay() simulates the latency of a real network call.
+    return of(page).pipe(delay(200), map(adaptPosts));
   }
 }

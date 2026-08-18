@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { adaptPost, adaptPosts, RawJsonPlaceholderPost } from './post.adapter';
+import { adaptPost, adaptPosts, RawSourcePost } from './post.adapter';
 
-const rawPost: RawJsonPlaceholderPost = {
+const rawPost: RawSourcePost = {
   id: 1,
   userId: 7,
   title: 'Hello world',
@@ -10,7 +10,7 @@ const rawPost: RawJsonPlaceholderPost = {
 
 describe('post.adapter', () => {
   describe('adaptPost', () => {
-    it('should map the external API fields to the internal Post model', () => {
+    it('should map the source fields to the internal Post model', () => {
       const post = adaptPost(rawPost);
 
       expect(post).toEqual({

@@ -1,7 +1,7 @@
 import { Post } from '../../../features/posts/post.model';
 
-/** Shape returned by the public JSONPlaceholder API. */
-export interface RawJsonPlaceholderPost {
+/** Shape stored in the content source (mirrors a typical REST API response). */
+export interface RawSourcePost {
   id: number;
   userId: number;
   title: string;
@@ -9,11 +9,11 @@ export interface RawJsonPlaceholderPost {
 }
 
 /**
- * Adapter: translates the external API response shape into the app's
+ * Adapter: translates the content source's response shape into the app's
  * internal Post model, so the rest of the app never depends on the
- * third-party API's naming/structure.
+ * source's naming/structure.
  */
-export function adaptPost(raw: RawJsonPlaceholderPost): Post {
+export function adaptPost(raw: RawSourcePost): Post {
   return {
     id: raw.id,
     authorId: raw.userId,
@@ -22,6 +22,6 @@ export function adaptPost(raw: RawJsonPlaceholderPost): Post {
   };
 }
 
-export function adaptPosts(raw: RawJsonPlaceholderPost[]): Post[] {
+export function adaptPosts(raw: RawSourcePost[]): Post[] {
   return raw.map(adaptPost);
 }

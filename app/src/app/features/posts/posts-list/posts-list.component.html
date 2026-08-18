@@ -7,40 +7,40 @@
         <dd>01</dd>
       </div>
       <div class="titleblock__cell">
-        <dt>SHEET</dt>
-        <dd>Posts feed</dd>
+        <dt>HOJA</dt>
+        <dd>Notas del taller</dd>
       </div>
     </dl>
   </header>
 
   <section class="controls">
     <div class="controls__field">
-      <label for="search">Search</label>
+      <label for="search">Buscar</label>
       <input
         id="search"
         type="search"
         [ngModel]="searchTerm()"
         (ngModelChange)="searchTerm.set($event)"
-        placeholder="e.g. architecture"
+        placeholder="ej. patrones, arquitectura"
       />
     </div>
 
     <button type="button" class="controls__sort" (click)="cycleSort()">
-      <span class="controls__sort-label">Sort</span>
+      <span class="controls__sort-label">Orden</span>
       <span class="controls__sort-value">{{ activeSortLabel }}</span>
     </button>
   </section>
 
   @if (errorMessage()) {
     <p class="stamp stamp--error" role="alert">
-      <span class="stamp__label">Revision needed</span>
+      <span class="stamp__label">Requiere revisión</span>
       {{ errorMessage() }}
-      <button type="button" class="stamp__retry" (click)="loadPosts()">Retry</button>
+      <button type="button" class="stamp__retry" (click)="loadPosts()">Reintentar</button>
     </p>
   }
 
   @if (loading()) {
-    <p class="stamp stamp--pending">Loading posts&hellip;</p>
+    <p class="stamp stamp--pending">Cargando notas&hellip;</p>
   } @else {
     <ul class="grid">
       @for (post of visiblePosts; track post.id; let i = $index) {
@@ -50,7 +50,7 @@
           <p class="card__summary">{{ post.summary }}</p>
         </li>
       } @empty {
-        <li class="stamp stamp--pending">No posts match this search.</li>
+        <li class="stamp stamp--pending">Ninguna nota coincide con esa búsqueda.</li>
       }
     </ul>
   }
