@@ -1,74 +1,196 @@
-.posts {
-  width: 100%;
-  max-width: 75rem;
-  margin: 0 auto;
-  padding: 0 1rem;
+.page {
+  min-height: 100%;
+}
 
-  &__header {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-  }
+.toolbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
 
-  &__controls {
+  &__inner {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 1.75rem 1.25rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    align-items: center;
-  }
-
-  &__label {
-    font-size: clamp(0.875rem, 2vw, 1rem);
-  }
-
-  &__search {
-    flex: 1 1 12rem;
-    min-width: 0;
-    min-height: 2.75rem;
-    padding: 0 0.75rem;
-    font-size: 1rem;
-  }
-
-  &__sort-button {
-    min-height: 2.75rem;
-    min-width: 2.75rem;
-    padding: 0 1rem;
-  }
-
-  &__error {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  &__status {
-    font-size: clamp(0.875rem, 2vw, 1rem);
-  }
-
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    align-items: flex-end;
+    justify-content: space-between;
     gap: 1rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  &__card {
-    min-width: 0;
-    padding: 1rem;
-    border-radius: 0.5rem;
   }
 
   &__title {
-    font-size: clamp(1.125rem, 2.5vw, 1.25rem);
-    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
   }
 
-  &__summary {
-    margin: 0;
-    font-size: clamp(0.875rem, 2vw, 1rem);
+  &__sub {
+    margin: 0.25rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
   }
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+
+  &__search {
+    flex: 1 1 16rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.5rem;
+    padding: 0 0.85rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    transition: border-color 0.15s ease;
+
+    &:focus-within {
+      border-color: var(--accent);
+    }
+
+    svg {
+      flex-shrink: 0;
+      color: var(--ink-faint);
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--ink);
+      font-size: 0.92rem;
+
+      &::placeholder {
+        color: var(--ink-faint);
+      }
+    }
+  }
+
+  &__sort {
+    min-height: 2.5rem;
+    padding: 0 1rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+
+    &:hover {
+      border-color: var(--ink-faint);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+  }
+}
+
+.content {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 3.5rem;
+}
+
+.banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  background: var(--danger-soft);
+  color: var(--ink);
+  border: 1px solid var(--danger);
+
+  span {
+    flex: 1;
+    min-width: 12rem;
+  }
+
+  &__retry {
+    background: var(--danger);
+    color: #fff;
+    border: none;
+    padding: 0.4rem 0.9rem;
+    border-radius: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(1.06);
+    }
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  min-width: 0;
+  padding: 1.1rem 1.2rem 1.3rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--ink-faint);
+  }
+}
+
+.card__author {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.3rem;
+  margin-bottom: 0.55rem;
+}
+
+.card__title {
+  font-size: 1.02rem;
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+}
+
+.card__summary {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.card--skeleton {
+  height: 8.5rem;
+  background: var(--surface-2);
+  border-color: transparent;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  padding: 3rem 1rem;
+  color: var(--ink-soft);
+  text-align: center;
+  font-size: 0.92rem;
 }

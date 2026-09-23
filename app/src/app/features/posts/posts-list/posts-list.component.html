@@ -1,43 +1,60 @@
-<section class="posts">
-  <header class="posts__header">
-    <h1>Posts</h1>
+<div class="page">
+  <header class="toolbar">
+    <div class="toolbar__inner">
+      <div class="toolbar__heading">
+        <h1 class="toolbar__title">Posts</h1>
+        <p class="toolbar__sub">Artículos cargados desde la API.</p>
+      </div>
 
-    <div class="posts__controls">
-      <label for="search" class="posts__label">Buscar por título</label>
-      <input
-        id="search"
-        type="search"
-        class="posts__search"
-        [ngModel]="searchTerm()"
-        (ngModelChange)="searchTerm.set($event)"
-        placeholder="Ej. architecto"
-      />
+      <div class="controls">
+        <label for="search" class="sr-only">Buscar por título</label>
+        <div class="controls__search">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.6" />
+            <path d="M17.5 17.5L13.8 13.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+          <input
+            id="search"
+            type="search"
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)"
+            placeholder="Buscar por título…"
+          />
+        </div>
 
-      <button type="button" class="posts__sort-button" (click)="cycleSort()">
-        Orden: {{ activeSortLabel }}
-      </button>
+        <button type="button" class="controls__sort" (click)="cycleSort()">
+          Orden: {{ activeSortLabel }}
+        </button>
+      </div>
     </div>
   </header>
 
-  @if (errorMessage()) {
-    <p class="posts__error" role="alert">
-      {{ errorMessage() }}
-      <button type="button" (click)="loadPosts()">Reintentar</button>
-    </p>
-  }
+  <main class="content">
+    @if (errorMessage()) {
+      <div class="banner" role="alert">
+        <span>{{ errorMessage() }}</span>
+        <button type="button" class="banner__retry" (click)="loadPosts()">Reintentar</button>
+      </div>
+    }
 
-  @if (loading()) {
-    <p class="posts__status">Cargando posts…</p>
-  } @else {
-    <ul class="posts__grid">
-      @for (post of visiblePosts; track post.id) {
-        <li class="posts__card">
-          <h2 class="posts__title">{{ post.title }}</h2>
-          <p class="posts__summary">{{ post.summary }}</p>
-        </li>
-      } @empty {
-        <li class="posts__status">No hay posts que coincidan con la búsqueda.</li>
-      }
-    </ul>
-  }
-</section>
+    @if (loading()) {
+      <ul class="grid" aria-hidden="true">
+        @for (row of skeletonRows; track row) {
+          <li class="card card--skeleton"></li>
+        }
+      </ul>
+    } @else {
+      <ul class="grid">
+        @for (post of visiblePosts; track post.id) {
+          <li class="card">
+            <span class="card__author">Autor #{{ post.authorId }}</span>
+            <h2 class="card__title">{{ post.title }}</h2>
+            <p class="card__summary">{{ post.summary }}</p>
+          </li>
+        } @empty {
+          <li class="empty">No hay posts que coincidan con "{{ searchTerm() }}".</li>
+        }
+      </ul>
+    }
+  </main>
+</div>

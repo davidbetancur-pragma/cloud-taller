@@ -44,6 +44,7 @@ export class PostsListComponent {
   readonly errorMessage = signal<string | null>(null);
   readonly searchTerm = signal('');
   readonly activeSortIndex = signal(0);
+  readonly skeletonRows = [0, 1, 2, 3, 4, 5];
 
   constructor() {
     const unsubscribe = this.notificationBus.subscribe((event) => {
